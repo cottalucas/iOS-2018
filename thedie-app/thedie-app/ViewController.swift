@@ -10,8 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var randonIndexDieOne: Int = 0
-    var randonIndexDieTwo: Int = 0
+    // Dice index
+    var randomIndexDieOne: Int = 0
+    var randomIndexDieTwo: Int = 0
     
     @IBOutlet weak var dieOne: UIImageView!
     @IBOutlet weak var dieTwo: UIImageView!
@@ -32,11 +33,16 @@ class ViewController: UIViewController {
     }
     
     func updateDiceImages(){
-        randonIndexDieOne = Int(arc4random_uniform(6) + 1)
-        randonIndexDieTwo = Int(arc4random_uniform(6) + 1)
+        randomIndexDieOne = Int(arc4random_uniform(6) + 1)
+        randomIndexDieTwo = Int(arc4random_uniform(6) + 1)
         
-        dieOne.image = UIImage(named:"dice" + String(randonIndexDieOne))
-        dieTwo.image = UIImage(named: "dice" + String(randonIndexDieTwo))
+        dieOne.image = UIImage(named:"dice" + String(randomIndexDieOne))
+        dieTwo.image = UIImage(named: "dice" + String(randomIndexDieTwo))
+    }
+    
+    // Roll the dice on the end of a shake event
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        updateDiceImages()
     }
     
 
