@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="magic8ball_app" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="5" translatesAutoresizingMaskIntoConstraints="NO" id="RGH-fO-sfB">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T0X-eq-4Ma">
+                                <rect key="frame" x="0.0" y="546" width="375" height="39"/>
+                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
+                                <state key="normal" title="Try me!">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="rollMeButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RaO-b3-Zry"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ball1" translatesAutoresizingMaskIntoConstraints="NO" id="a29-LK-eHu">
+                                <rect key="frame" x="37" y="181" width="301" height="305"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ypd-Ej-exL">
+                                <rect key="frame" x="29.5" y="65" width="317" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="GbM-kT-gr4"/>
+                                </constraints>
+                                <string key="text">Ask me anthing &amp; Shake it 
+shake the phone</string>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="28"/>
+                                <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="RGH-fO-sfB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="5AO-Zw-5SS"/>
+                            <constraint firstItem="RGH-fO-sfB" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="7Xi-un-sQT"/>
+                            <constraint firstItem="Ypd-Ej-exL" firstAttribute="centerX" secondItem="a29-LK-eHu" secondAttribute="centerX" id="9Az-VP-cm3"/>
+                            <constraint firstItem="a29-LK-eHu" firstAttribute="top" secondItem="Ypd-Ej-exL" secondAttribute="bottom" constant="82" id="EAm-JB-F9t"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="T0X-eq-4Ma" secondAttribute="bottom" constant="82" id="Irj-N9-PWg"/>
+                            <constraint firstItem="RGH-fO-sfB" firstAttribute="centerY" secondItem="a29-LK-eHu" secondAttribute="centerY" id="KIX-LE-AYv"/>
+                            <constraint firstItem="Ypd-Ej-exL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="45" id="Ltn-pQ-AYT"/>
+                            <constraint firstItem="RGH-fO-sfB" firstAttribute="leading" secondItem="T0X-eq-4Ma" secondAttribute="leading" id="MiO-ys-a7P"/>
+                            <constraint firstItem="a29-LK-eHu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="37" id="O6I-6x-qul"/>
+                            <constraint firstAttribute="trailing" secondItem="RGH-fO-sfB" secondAttribute="trailing" id="gP5-qE-g4S"/>
+                            <constraint firstItem="T0X-eq-4Ma" firstAttribute="top" secondItem="a29-LK-eHu" secondAttribute="bottom" constant="60" id="glb-9H-Yw1"/>
+                            <constraint firstItem="RGH-fO-sfB" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="oza-If-BgG"/>
+                            <constraint firstItem="a29-LK-eHu" firstAttribute="centerX" secondItem="T0X-eq-4Ma" secondAttribute="centerX" id="x1n-JA-J5q"/>
+                            <constraint firstItem="RGH-fO-sfB" firstAttribute="trailing" secondItem="T0X-eq-4Ma" secondAttribute="trailing" id="x9C-Mg-QlQ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="eightBallImage" destination="a29-LK-eHu" id="7AH-rK-kUJ"/>
+                        <outlet property="rollMeButtonUI" destination="T0X-eq-4Ma" id="GSE-VM-wi3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="32.799999999999997" y="31.934032983508249"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="5" width="1000" height="1000"/>
+        <image name="ball1" width="460" height="412"/>
+    </resources>
+</document>
