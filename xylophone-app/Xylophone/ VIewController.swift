@@ -10,8 +10,9 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController{
+class ViewController: UIViewController, AVAudioPlayerDelegate{
     
+    var player: AVAudioPlayer!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,18 +20,21 @@ class ViewController: UIViewController{
 
 
     @IBAction func notePressed(_ sender: UIButton) {
-        playNote()
+        let note = sender.tag
+        playNote(whichNote: note)
     }
     
-    func playNote(){
-        var notesSound: AVAudioPlayer!
-        let soundPath = Bundle.main.path(forResource: "note1", ofType: "wave")!
-        let url = URL(fileURLWithPath: soundPath)
+    func playNote(whichNote: Int){
+        let url = Bundle.main.url(forResource: "note" + String(whichNote), withExtension: "wav")!
+    
         do {
-            notesSound = try AVAudioPlayer(contentsOf: url)
-            notesSound.play()
-        } catch  {
-            print("Audio file not found")
+            player = try AVAudioPlayer(contentsOf: url)
+            guard let player = player else { return }
+            
+            player.prepareToPlay()
+            player.play()
+        } catch let error as Error {
+            print(error.localizedDescription)
         }
     }
 }
