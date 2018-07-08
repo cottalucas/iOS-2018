@@ -33,33 +33,63 @@ class ViewController: UIViewController {
     @IBOutlet weak var topButton: UIButton!         // Has TAG = 1
     @IBOutlet weak var bottomButton: UIButton!      // Has TAG = 2
     @IBOutlet weak var storyTextView: UILabel!
+    @IBOutlet weak var restartStory: UIButton!
     
-    // TODO Step 5: Initialise instance variables here
-    
-    
-    
-    
+    var tag: Int = 1
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        // TODO Step 3: Set the text for the storyTextView, topButton, bottomButton, and to T1_Story, T1_Ans1, and T1_Ans2
-        
+            restart()
     }
 
+    @IBAction func startStory(_ sender: Any) {
+        restart()
+    }
     
-    // User presses one of the buttons
+    // User answers
     @IBAction func buttonPressed(_ sender: UIButton) {
     
-        // TODO Step 4: Write an IF-Statement to update the views
-                
-        // TODO Step 6: Modify the IF-Statement to complete the story
-        
-    
+        if sender.tag == 1 && tag == 1 || sender.tag == 1 && tag == 2  {
+            storyTextView.text = story3
+            topButton.setTitle(answer3a, for: .normal)
+            bottomButton.setTitle(answer3b, for: .normal)
+            
+            tag = 3
+        } else if sender.tag == 2 && tag == 1 {
+            storyTextView.text = story2
+            topButton.setTitle(answer2a, for: .normal)
+            bottomButton.setTitle(answer2b, for: .normal)
+            
+            tag = 2
+        } else if sender.tag == 2 && tag == 2 {
+            storyTextView.text = story4
+            topButton.isHidden = true
+            bottomButton.isHidden = true
+
+            restartStory.isHidden = false
+        } else if sender.tag == 2 && tag == 3 {
+            storyTextView.text = story5
+            topButton.isHidden = true
+            bottomButton.isHidden = true
+
+            restartStory.isHidden = false
+        } else if sender.tag == 1 && tag == 3 {
+            storyTextView.text = story6
+            topButton.isHidden = true
+            bottomButton.isHidden = true
+            
+            restartStory.isHidden = false
+        }
     }
     
-
-
-
+    func restart() {
+        tag = 1
+        storyTextView.text = story1
+        topButton.setTitle(answer1a, for: .normal)
+        bottomButton.setTitle(answer1b, for: .normal)
+        topButton.isHidden = false
+        bottomButton.isHidden = false
+        restartStory.isHidden = true
+    }
 }
 
