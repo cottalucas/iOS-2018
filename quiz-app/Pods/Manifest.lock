@@ -1,0 +1,20 @@
+PODS:
+  - KRActivityIndicatorView (2.1.2)
+  - KRProgressHUD (3.2.2):
+    - KRActivityIndicatorView (= 2.1.2)
+
+DEPENDENCIES:
+  - KRProgressHUD
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - KRActivityIndicatorView
+    - KRProgressHUD
+
+SPEC CHECKSUMS:
+  KRActivityIndicatorView: 27e7a7e3da7fbc8e5405fbc4088b51cc2095a410
+  KRProgressHUD: 8872da74b1c462e15c82a8fff250a2d34ee82ea2
+
+PODFILE CHECKSUM: d6a81fd8a67b7856ab03488d1b50f286dc86b8a2
+
+COCOAPODS: 1.5.3

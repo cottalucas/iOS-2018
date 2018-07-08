@@ -8,14 +8,14 @@
 //
 
 import UIKit
+import KRProgressHUD
 
 class ViewController: UIViewController {
     
     let allQuestions = Data()
     var chooseAnswer: Bool = false
-    var questionsAnsewered: Int = 0
-    var round: Int = 0
     var score: Int = 0
+    var questionsAnsewered = 0
     
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
@@ -24,8 +24,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        questionLabel.text = allQuestions.list[1].questionText
+        nextQuestion()
     }
 
 
@@ -36,49 +35,57 @@ class ViewController: UIViewController {
             chooseAnswer = false
         }
         checkAnswer()
-        updateUI()
         nextQuestion()
-        round += 1
-        if round == 13 {
-            startOver()
-        }
     }
     
     
     func updateUI() {
-        // TODO
+        scoreLabel.text = "Score: \(score)"
+        progressLabel.text = String(questionsAnsewered + 1) + "/13"
+        progressBar.frame.size.width = (view.frame.size.width/13) * CGFloat(questionsAnsewered + 1)
     }
     
 
     func nextQuestion() {
-        questionLabel.text = allQuestions.list[Int(arc4random_uniform(13))].questionText
+        if questionsAnsewered < 13 {
+            questionLabel.text = allQuestions.list[questionsAnsewered].questionText
+            updateUI()
+        } else {
+            // Show alert result to the user
+            let alertController = UIAlertController(title: "Congratulations", message:
+                "You scored \(score)/3900. Keep it up", preferredStyle: UIAlertControllerStyle.alert)
+            
+            alertController.addAction(UIAlertAction(title: "Restart", style: UIAlertActionStyle.default, handler:
+                { (UIAlertAction) in
+                    self.startOver()
+            }))
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
 
     
     func checkAnswer() {
-        let question = allQuestions.list[1]
-        if chooseAnswer == question.answer {
-            questionsAnsewered += 1
-            progressLabel.text = String(questionsAnsewered) + "/13"
+        if chooseAnswer == allQuestions.list[questionsAnsewered].answer {
+            // Update scores
             score += 300
-            scoreLabel.text = "Score: \(score)"
+            // Alert result
+            KRProgressHUD.showSuccess(withMessage: "😄")
         } else {
-            questionsAnsewered += 1
-            progressLabel.text = String(questionsAnsewered) + "/13"
+            KRProgressHUD.showError(withMessage: "🙁")
         }
+        questionsAnsewered += 1
     }
     
     
     func startOver() {
         questionsAnsewered = 0
-        round = 0
         score = 0
         
-        // Show alert result to the user
-        let alertController = UIAlertController(title: "Congratulations", message:
-            "You scored \(score)/3900. Keep it up", preferredStyle: UIAlertControllerStyle.alert)
-        alertController.addAction(UIAlertAction(title: "Restart", style: UIAlertActionStyle.default, handler: nil))
+        // Update UI
+        scoreLabel.text = "Score: 0000"
+        progressLabel.text = "0/13"
         
-        self.present(alertController, animated: true, completion: nil)
+        nextQuestion()
     }
 }
