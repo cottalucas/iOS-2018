@@ -3,6 +3,6 @@
 
 
 
-Edited by: Lucas Cotta
+Updated by: Lucas Cotta
 
 Copyright © The App Brewery
