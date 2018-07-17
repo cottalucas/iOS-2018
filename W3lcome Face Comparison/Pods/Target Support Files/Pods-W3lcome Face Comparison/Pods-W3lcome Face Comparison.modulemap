@@ -1,0 +1,6 @@
+framework module Pods_W3lcome_Face_Comparison {
+  umbrella header "Pods-W3lcome Face Comparison-umbrella.h"
+
+  export *
+  module * { export * }
+}
