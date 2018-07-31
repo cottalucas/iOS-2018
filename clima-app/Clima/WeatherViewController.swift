@@ -9,22 +9,18 @@
 
 import UIKit
 import CoreLocation
-
+import Alamofire
+import SwiftyJSON
 
 class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     
-    //Constants
+    //API constants
     let WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
-    let APP_ID = "e0cbbc39346572a8ab122b0319679431 "
+    let APP_ID = "e0cbbc39346572a8ab122b0319679431"
     
-
     //GPS instatiation
     let locationManager = CLLocationManager()
     
-    
-
-    
-    //Pre-linked IBOutlets
     @IBOutlet weak var weatherIcon: UIImageView!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -33,15 +29,11 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        //Set up the location manager here.
+        //Set up the location manager
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        
-    
-        
         
     }
     
@@ -50,19 +42,32 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     //MARK: - Networking
     /***************************************************************/
     
-    //Write the getWeatherData method here:
-    
+    //getWeatherData method
+    func getWeatherData(url:String, weatherAPIParam: Dictionary<String, String>) {
+        Alamofire.request(url, method: .get, parameters: weatherAPIParam).responseJSON{
+            response in
+            if response.result.isSuccess {
+                let WeatherDataInJSON: JSON = JSON(response.result.value!)
+                self.JSONParsing(JSONData: WeatherDataInJSON)
+            } else {
+                print("Error: \(String(describing: response.result.error))")
+                self.cityLabel.text = "Connection issues"
+            }
+        }
+    }
 
-    
-    
-    
     
     
     //MARK: - JSON Parsing
     /***************************************************************/
-   
+    func JSONParsing(JSONData: JSON) {
+        print(JSONData)
+        let humidity = JSONData["main"]["humidity"]
+        let temp = JSONData["main"]["temp"]
+        let location = JSONData["name"]
+    }
     
-    //Write the updateWeatherData method here:
+    //updateWeatherData method
     
 
     
@@ -72,7 +77,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     /***************************************************************/
     
     
-    //Write the updateUIWithWeatherData method here:
+    //updateUIWithWeatherData
     
     
     
@@ -87,7 +92,12 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
         let currentLocation = locations[locations.count - 1]
         if currentLocation.horizontalAccuracy > 0 {
             locationManager.stopUpdatingLocation()
-            print(currentLocation)
+            let latitude = String(currentLocation.coordinate.latitude)
+            let longitude = String(currentLocation.coordinate.longitude)
+            
+            let weatherAPIParam: [String: String] = ["lat": latitude, "lon": longitude, "appid": APP_ID]
+            
+            getWeatherData(url: WEATHER_URL, weatherAPIParam: weatherAPIParam)
         }
     }
     
