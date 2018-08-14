@@ -9,39 +9,25 @@
 
 import UIKit
 
-
-//Write the protocol declaration here:
-
-
+protocol changeCityDelegate {
+    func ChangeCityViewController(city: String)
+}
 
 class ChangeCityViewController: UIViewController {
     
-    //Declare the delegate variable here:
+    //MARK: Variables
+    var delegate: changeCityDelegate?
 
-    
-    //This is the pre-linked IBOutlets to the text field:
+    //MARK: IBOutlets
     @IBOutlet weak var changeCityTextField: UITextField!
-
     
-    //This is the IBAction that gets called when the user taps on the "Get Weather" button:
+    //MARK: IBActions
     @IBAction func getWeatherPressed(_ sender: AnyObject) {
-        
-        
-        
-        //1 Get the city name the user entered in the text field
-        
-        
-        //2 If we have a delegate set, call the method userEnteredANewCityName
-        
-        
-        //3 dismiss the Change City View Controller to go back to the WeatherViewController
-        
-        
+        let city = changeCityTextField.text!
+        delegate?.ChangeCityViewController(city: city)
+        self.dismiss(animated: true, completion: nil)
     }
     
-    
-
-    // It dismisses the ChangeCityViewController.
     @IBAction func backButtonPressed(_ sender: AnyObject) {
         self.dismiss(animated: true, completion: nil)
     }

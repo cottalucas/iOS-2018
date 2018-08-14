@@ -16,8 +16,7 @@ class WeatherDataModel {
     var humidity: Int = 0
     var weatherIcon: String = ""
     
-    //This method turns a condition code into the name of the weather condition image
-    
+    //Get weather icon based on condition
     func updateWeatherIcon(condition: Int) -> String {
         
     switch (condition) {
