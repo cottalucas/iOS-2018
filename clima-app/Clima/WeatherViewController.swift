@@ -24,6 +24,15 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, change
     @IBOutlet weak var weatherIcon: UIImageView!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var temperatureUnit: UISwitch!
+    
+    //MARK: IBActions
+    //Change the temperature unit
+    @IBAction func temperatureUnit(_ sender: Any) {
+        temperatureUnit.isOn == true ? updateUIWithWeatherData(unit: "C") : updateUIWithWeatherData(unit: "F")
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +42,9 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, change
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        
+        temperatureUnit.setOn(true, animated: true)
     }
-    
     
     
     //MARK: Networking
@@ -61,16 +71,22 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, change
             weatherDataModel.humidity = JSONData["weather"][0]["id"].intValue
             weatherDataModel.weatherIcon = weatherDataModel.updateWeatherIcon(condition: weatherDataModel.condition)
             
-            updateUIWithWeatherData()
+            temperatureUnit.isOn == true ? updateUIWithWeatherData(unit: "C") : updateUIWithWeatherData(unit: "F")
+            
         } else {
             self.cityLabel.text = "Weather Unavailable"
         }
     }
     
     //MARK: - UI Updates
-    func updateUIWithWeatherData(){
+    func updateUIWithWeatherData(unit: String){
+        if unit == "C" {
+            temperatureLabel.text = "\(Double(weatherDataModel.temp))°C"
+        } else {
+            temperatureLabel.text = "\(Double(weatherDataModel.temp) * 1.8 + 32)°F"
+        }
+        
         cityLabel.text = weatherDataModel.city
-        temperatureLabel.text = "\(weatherDataModel.temp)°C"
         weatherIcon.image = UIImage(named: weatherDataModel.weatherIcon)
     }
 

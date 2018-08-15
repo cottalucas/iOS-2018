@@ -77,11 +77,19 @@
                                     <constraint firstItem="Ssc-Cu-XmK" firstAttribute="top" secondItem="C11-fU-d6q" secondAttribute="bottom" constant="2" id="xht-1J-4cs"/>
                                 </constraints>
                             </view>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8nV-E1-g8J">
+                                <rect key="frame" x="16" y="28" width="49" height="31"/>
+                                <connections>
+                                    <action selector="temperatureUnit:" destination="vXZ-lx-hvc" eventType="valueChanged" id="wM0-6R-NVO"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="E0h-aX-oBb" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="7vB-96-MsA"/>
                             <constraint firstItem="E0h-aX-oBb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="CN9-ZE-mQk"/>
+                            <constraint firstItem="8nV-E1-g8J" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" symbolic="YES" id="D4v-mo-zUk"/>
+                            <constraint firstItem="8nV-E1-g8J" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="IEL-zO-MWK"/>
                             <constraint firstItem="th1-Kr-XgW" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="OCL-NQ-UMw"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="VNR-V6-HMc" secondAttribute="bottom" constant="20" id="Z6J-2F-fG1"/>
                             <constraint firstAttribute="trailing" secondItem="E0h-aX-oBb" secondAttribute="trailing" id="hub-6C-cfa"/>
@@ -94,6 +102,7 @@
                     <connections>
                         <outlet property="cityLabel" destination="Ssc-Cu-XmK" id="8PV-i3-tg0"/>
                         <outlet property="temperatureLabel" destination="AT7-It-Fyf" id="aNl-QI-DaP"/>
+                        <outlet property="temperatureUnit" destination="8nV-E1-g8J" id="Ckd-oz-weI"/>
                         <outlet property="weatherIcon" destination="C11-fU-d6q" id="AG2-gZ-vGX"/>
                     </connections>
                 </viewController>
