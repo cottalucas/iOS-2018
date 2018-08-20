@@ -18,7 +18,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     let baseURL = "https://apiv2.bitcoinaverage.com/indices/global/ticker/BTC"
     let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"]
+    let currencyUnit = ["$", "R$", "$", "¥", "€", "£", "$", "Rp", "₪", "₹", "¥", "$", "kr", "$", "zł", "lei", "₽", "kr", "$", "$", "R"]
     var selectedCurrency = ""
+    var selectedUnit = ""
 
     //MARK: IBOutlets
     /***************************************************************/
@@ -57,6 +59,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     //Retrieve picker data + invoke parser
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedCurrency = currencyArray[row] as String
+        selectedUnit = currencyUnit[row] as String
         getBitcoinData(url: String(baseURL+selectedCurrency))
     }
     
@@ -75,11 +78,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     self.bitcoinPriceLabel.text = "Connection Issues"
                 }
             }
-
     }
     
     func updateBicoinValueData(json : JSON) {
- 
         let currentValue: Double = json["ask"].double!
         updateUIWithWeatherData(withNewValue: String(currentValue))
     }
@@ -88,7 +89,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     /***************************************************************/
     
     func updateUIWithWeatherData(withNewValue : String){
-        bitcoinPriceLabel.text = withNewValue
+        bitcoinPriceLabel.text = selectedUnit + " " + withNewValue
     }
     
 }
