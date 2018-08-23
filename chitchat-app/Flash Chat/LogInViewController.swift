@@ -6,13 +6,17 @@
 
 
 import UIKit
+import FirebaseAuth
 
 
 class LogInViewController: UIViewController {
 
-    //Textfields pre-linked with IBOutlets
+    //MARK: IBOutlets
+    //*************************************
+    
     @IBOutlet var emailTextfield: UITextField!
     @IBOutlet var passwordTextfield: UITextField!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,13 +27,29 @@ class LogInViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
-   
+    //MARK: IBactions
+    //*************************************
+    
     @IBAction func logInPressed(_ sender: AnyObject) {
-
+        //Login user
+        Auth.auth().signIn(withEmail: emailTextfield.text!, password: passwordTextfield.text!) { (authResult, error) in
+            if error != nil {
+                self.Alert(title: "Error!", error: String(error!.localizedDescription))
+            } else {
+                self.performSegue(withIdentifier: "goToChat", sender: self)
+            }
+        }
+    }
+    
+    //MARK: Alert
+    //*************************************
+    
+    func Alert(title: String, error: String) {
+        let alert = UIAlertController(title: "\(title)", message: "\(error)", preferredStyle: .alert)
         
-        //TODO: Log in the user
+        alert.addAction(UIAlertAction(title: "Let me try again!", style: .cancel, handler: nil))
         
-        
+        self.present(alert, animated: true)
     }
     
 
