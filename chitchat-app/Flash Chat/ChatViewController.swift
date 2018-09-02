@@ -26,6 +26,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet var messageTextfield: UITextField!
     @IBOutlet var messageTableView: UITableView!
     
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,36 +37,40 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         messageTableView.delegate = self
         messageTableView.dataSource = self
         messageTextfield.delegate = self
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(textFieldDidEndEditing))
-        messageTableView.addGestureRecognizer(tapGesture)
-        
-        //Register MessageCell.xib file
         messageTableView.register(UINib(nibName: "MessageCell", bundle: nil), forCellReuseIdentifier: "customMessageCell")
+        
+        //Tap gesture to close keyboard
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tableViewTapped))
+        messageTableView.addGestureRecognizer(tapGesture)
         
         //UIConfig for TableView
         configureTableView()
+        messageTableView.separatorStyle = .none
+        
+        //Get data
+        retrieveMessages()
     }
     
     //MARK: - TableView DataSource Methods
     //*************************************
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return conversation.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customMessageCell", for: indexPath) as! CustomMessageCell
         
-        let initialText = ["Test1", "Test2", "Test3"]
-        cell.messageBody.text = initialText[indexPath.row]
+        cell.messageBody.text = conversation[indexPath.row].messageBody
+        cell.senderUsername.text = conversation[indexPath.row].senderUsername
+        cell.avatarImageView.image = UIImage(named: "egg")
         
         return cell
     }
     
     func configureTableView(){
         messageTableView.rowHeight = UITableViewAutomaticDimension
-        messageTableView.estimatedRowHeight = 100
+        messageTableView.estimatedRowHeight = 120.0
     }
     
     
@@ -72,9 +80,17 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     //*************************************
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.5) {
-            self.heightConstraint.constant = 308
-            self.view.layoutIfNeeded()
+        messageTextfield.becomeFirstResponder()
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        //Getting keyboard height for textField animation
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let keyboardHeight = keyboardSize.height
+            UIView.animate(withDuration: 0.5) {
+                self.heightConstraint.constant = keyboardHeight + 50
+                self.view.layoutIfNeeded()
+            }
         }
     }
     
@@ -85,15 +101,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    //Animation: close keyboard tapping out
+    @objc func tableViewTapped(){
+        messageTextfield.endEditing(true)
+    }
+    
     ///////////////////////////////////////////
     
     
     //MARK: - Send & Recieve from Firebase
-    //*************************************
-    
-    
-    
-    //MARK: IBActions
     //*************************************
     
     @IBAction func sendPressed(_ sender: AnyObject) {
@@ -104,11 +120,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         //Send message to Firebase
         let messageDB = Database.database().reference().child("Messages")
-        let messageDict = ["sender": Auth.auth().currentUser?.email, "message": messageTextfield.text!]
+        let messageDict = ["senderUsername": Auth.auth().currentUser?.email, "messageBody": messageTextfield.text!]
         
         messageDB.childByAutoId().setValue(messageDict) {
-            (error, reference) in
-            if error != nil {
+            (error, ref) in
+            if error == nil {
                 self.messageTextfield.isEnabled = true
                 self.sendButton.isEnabled = true
                 self.messageTextfield.text = ""
@@ -119,7 +135,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    //Retrieve messages from Firebase
     func retrieveMessages(){
         let messageDB = Database.database().reference().child("Messages")
         messageDB.observe(.childAdded) { (snapshot) in
@@ -127,18 +142,18 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             let snapshotValue = snapshot.value as! Dictionary<String,String>
             
             let message = Message()
-            message.senderUsername = snapshotValue["sender"]!
-            message.messageBody = snapshotValue["message"]!
-            
+            message.senderUsername = snapshotValue["senderUsername"]!
+            message.messageBody = snapshotValue["messageBody"]!
             self.conversation.append(message)
+            
+            //Reload tableView
+            self.configureTableView()
+            self.messageTableView.reloadData()
         }
-        
-        
     }
 
-    
+    //Logout
     @IBAction func logOutPressed(_ sender: AnyObject) {
-        //Logout user
         do {
             try
                 Auth.auth().signOut()
