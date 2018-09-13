@@ -12,6 +12,7 @@ class ListViewController: UITableViewController {
 
     //MARK: Variables
     var listArray = ["Clean Room", "Clean Living Room", "Buy Tomatoes"]
+    let defaults = UserDefaults.standard
     
     
     //MARK: IBOutlets
@@ -56,6 +57,11 @@ class ListViewController: UITableViewController {
         
         let confirmAction = UIAlertAction(title: "Add", style: .default) { (_) in
                 self.listArray.append(textField.text ?? "New Item")
+            
+                /** Persistance **/
+                self.defaults.set(self.listArray, forKey: "listArray")
+                /** Persistance **/
+            
                 self.tableView.reloadData()
         }
         
