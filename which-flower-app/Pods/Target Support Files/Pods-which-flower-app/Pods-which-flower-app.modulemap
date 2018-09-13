@@ -1,0 +1,6 @@
+framework module Pods_which_flower_app {
+  umbrella header "Pods-which-flower-app-umbrella.h"
+
+  export *
+  module * { export * }
+}
