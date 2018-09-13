@@ -69,10 +69,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         //Cell UI based on the type of the user
         if cell.senderUsername.text == Auth.auth().currentUser?.email as String? {
-            cell.avatarImageView.backgroundColor = UIColor.flatLime()
-            cell.messageBackground.backgroundColor = UIColor.flatSkyBlueColorDark()
+            cell.avatarImageView.backgroundColor = UIColor.flatWhiteColorDark()
+            cell.messageBackground.backgroundColor = UIColor.flatNavyBlue()
         } else {
-            cell.avatarImageView.backgroundColor = UIColor.flatLime()
+            cell.avatarImageView.backgroundColor = UIColor.flatWhiteColorDark()
             cell.messageBackground.backgroundColor = UIColor.flatGray()
         }
         
