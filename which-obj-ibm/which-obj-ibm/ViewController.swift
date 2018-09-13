@@ -20,7 +20,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     //MARK: IBOutlets
     @IBOutlet weak var UIImageViewFromMain: UIImageView!
-    
+    @IBOutlet weak var cameraButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,11 +35,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     //MARK: Photo Methods
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        //UI Updates
+        SVProgressHUD.show()
+        cameraButton.isEnabled = false
+        
+        //Clean list of previous classifications
+        classificationResults = [:]
+        
         if let imageFromCamera = info[UIImagePickerControllerOriginalImage] as? UIImage {
             UIImageViewFromMain.image = imageFromCamera
             imagePicker.dismiss(animated: true, completion: nil)
-            
-            SVProgressHUD.show()
             
             //MARK: ML
             //Instantiate model
@@ -57,7 +62,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 
                 let finalMessage = "\(finalValues[0]): \(finalScores[0])\n\(finalValues[1]): \(finalScores[1])\n\(finalValues[2]): \(finalScores[2])"
                 
-                SVProgressHUD.dismiss()
+                
+                //UI Updates
+                DispatchQueue.main.async {
+                    self.cameraButton.isEnabled = true
+                    SVProgressHUD.dismiss()
+                }
                 
                 let alert = UIAlertController(title: "Results", message: finalMessage, preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "Cool!", style: UIAlertActionStyle.default, handler: nil))
@@ -68,11 +78,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             print("Error picking the image")
         }
     }
+
     
     @IBAction func cameraButtonPressed(_ sender: Any) {
         present(imagePicker, animated: true, completion: nil)
         
-        imagePicker.sourceType = .photoLibrary
+        imagePicker.sourceType = .camera
         imagePicker.allowsEditing = false
     }
 }

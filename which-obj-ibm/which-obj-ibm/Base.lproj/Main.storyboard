@@ -40,6 +40,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="UIImageViewFromMain" destination="a8f-rD-sI0" id="Dsg-pv-Vrq"/>
+                        <outlet property="cameraButton" destination="OUe-3i-X9u" id="Itl-tO-IlE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
