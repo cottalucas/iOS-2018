@@ -1,9 +1,9 @@
 //
 //  AppDelegate.swift
-//  get****done-app
+//  w3lcome-id
 //
-//  Created by Lucas Cotta on 9/11/18.
-//  Copyright © 2018 Lucas Cotta. All rights reserved.
+//  Created by Lucas Cotta on 9/28/18.
+//  Copyright © 2018 Cotival Solutions GmbH. All rights reserved.
 //
 
 import UIKit
